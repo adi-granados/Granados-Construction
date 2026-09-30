@@ -44,6 +44,7 @@
   <!-- HERO: replace video/hero.mp4 and images/hero-poster.jpg with your own footage -->
   <section class="hero">
     <video class="hero-video" autoplay muted loop playsinline poster="images/hero-poster.jpg">
+      <source src="video/hero-mobile.mp4" type="video/mp4" media="(max-width: 767px)">
       <source src="video/hero.mp4" type="video/mp4">
     </video>
     <div class="hero-overlay"></div>
@@ -346,6 +347,8 @@
     <img alt="">
     <button class="lb-next" aria-label="Next">&#8250;</button>
   </div>
+
+  <div class="nav-backdrop"></div>
 
   <script src="script.js"></script>
 </body>

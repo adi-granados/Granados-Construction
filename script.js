@@ -12,9 +12,27 @@
     nav.classList.toggle('open', open);
     toggle.classList.toggle('open', open);
     toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    document.documentElement.classList.toggle('menu-open', open);
   }
   toggle.addEventListener('click', function () { setMenu(!nav.classList.contains('open')); });
   nav.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { setMenu(false); }); });
+  document.querySelector('.nav-backdrop').addEventListener('click', function () { setMenu(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setMenu(false); });
+  // Close the menu if the screen is rotated or resized to desktop width
+  window.matchMedia('(min-width: 861px)').addEventListener('change', function (m) { if (m.matches) setMenu(false); });
+
+  // Hero video: some phones block autoplay (for example in Low Power Mode); the poster image shows instead
+  var video = document.querySelector('.hero-video');
+  if (video) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      video.removeAttribute('autoplay');
+      video.pause();
+    } else {
+      var p = video.play();
+      if (p && p.catch) p.catch(function () {});
+    }
+  }
 
   // Reveal on scroll
   var revealTargets = document.querySelectorAll('.section-head, .service-card, .process li, .about-media, .about-copy, .g-item, .contact-info, .contact-form, .cta-inner');
@@ -54,8 +72,22 @@
     show(visible().indexOf(item));
     lb.classList.add('open');
     lb.setAttribute('aria-hidden', 'false');
+    document.documentElement.classList.add('lb-open');
   }
-  function closeLb() { lb.classList.remove('open'); lb.setAttribute('aria-hidden', 'true'); }
+  function closeLb() {
+    lb.classList.remove('open');
+    lb.setAttribute('aria-hidden', 'true');
+    document.documentElement.classList.remove('lb-open');
+  }
+  // Swipe left/right between photos on touch screens
+  var touchX = null;
+  lb.addEventListener('touchstart', function (e) { touchX = e.touches[0].clientX; }, { passive: true });
+  lb.addEventListener('touchend', function (e) {
+    if (touchX === null) return;
+    var dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 50) show(current + (dx < 0 ? 1 : -1));
+    touchX = null;
+  });
   items.forEach(function (it) { it.addEventListener('click', function () { openLb(it); }); });
   lb.querySelector('.lb-close').addEventListener('click', closeLb);
   lb.querySelector('.lb-prev').addEventListener('click', function (e) { e.stopPropagation(); show(current - 1); });
