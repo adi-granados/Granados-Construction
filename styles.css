@@ -1,3 +1,7 @@
+/* Fonts are self-hosted so no visitor data goes to Google */
+@font-face { font-family: "Archivo"; src: url("fonts/archivo.woff2") format("woff2"); font-weight: 500 800; font-display: swap; }
+@font-face { font-family: "Inter"; src: url("fonts/inter.woff2") format("woff2"); font-weight: 400 600; font-display: swap; }
+
 :root {
   --ink: #16181b;
   --ink-2: #1f2226;
@@ -190,6 +194,13 @@ p { margin: 0 0 1em; }
 .contact-form input:focus, .contact-form select:focus, .contact-form textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(200,134,47,.18); }
 .contact-form .invalid { border-color: #c0392b; }
 .hp { position: absolute !important; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.form-note { margin: 0; font-size: .82rem; color: var(--muted); }
+.form-note a, .legal a { text-decoration: underline; }
+.legal { padding-top: 150px; }
+.legal .container { max-width: 760px; }
+.legal h1 { font-size: clamp(2.2rem, 5vw, 3rem); }
+.legal h2 { font-size: 1.3rem; margin-top: 2em; }
+.legal-date { color: var(--muted); }
 .form-status { margin: 0; font-weight: 500; min-height: 1.4em; }
 .form-status.ok { color: #1e7a45; }
 .form-status.err { color: #b3261e; }
